@@ -1,0 +1,422 @@
+<style>
+/* =========================
+   Lavender Glass v2 (Detailed)
+   Drop-in replacement CSS
+   ========================= */
+
+/* --- Theme tokens --- */
+:root{
+  --bg0:#0b0812;
+  --bg1:#0e0b16;
+  --bg2:#140f24;
+
+  --card: rgba(40, 32, 72, 0.68);
+  --card2: rgba(56, 45, 98, 0.55);
+
+  --text:#f5f2ff;
+  --muted:#cfc7ff;
+
+  --accent:#b8a9ff;
+  --accent2:#d6ccff;
+  --accent3:#8be9ff;
+
+  --border: rgba(184,169,255,.24);
+  --border-strong: rgba(214,204,255,.28);
+
+  --glow: rgba(184,169,255,.35);
+  --glow2: rgba(139,233,255,.22);
+
+  --shadow: 0 14px 34px rgba(0,0,0,.55);
+  --shadow-soft: 0 10px 26px rgba(0,0,0,.40);
+
+  --r: 22px;         /* default radius */
+  --r2: 18px;        /* smaller radius */
+  --pad: 20px;       /* default padding */
+}
+
+/* --- Reset & base --- */
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color:var(--text);
+  line-height:1.65;
+
+  /* Background: layered gradients + subtle animated aura */
+  background:
+    radial-gradient(1200px 700px at 10% 10%, rgba(184,169,255,.22), transparent 60%),
+    radial-gradient(1000px 700px at 90% 10%, rgba(139,233,255,.12), transparent 58%),
+    radial-gradient(900px 700px at 30% 90%, rgba(214,204,255,.18), transparent 60%),
+    linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+  overflow-x:hidden;
+}
+
+/* Decorative animated blobs (no HTML changes) */
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:auto;
+  width:520px;
+  height:520px;
+  border-radius:999px;
+  filter: blur(34px);
+  opacity:.55;
+  z-index:-1;
+  pointer-events:none;
+  transform: translate3d(0,0,0);
+  animation: floaty 10s ease-in-out infinite;
+}
+body::before{
+  left:-180px;
+  top:10vh;
+  background: radial-gradient(circle at 30% 30%, rgba(184,169,255,.55), transparent 60%);
+}
+body::after{
+  right:-220px;
+  top:55vh;
+  background: radial-gradient(circle at 30% 30%, rgba(139,233,255,.25), transparent 60%);
+  animation-duration: 12s;
+}
+
+@keyframes floaty{
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(18px,-14px) scale(1.03); }
+}
+
+/* Subtle noise overlay */
+.wrap::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.06;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+
+/* --- Links & focus --- */
+a{
+  color:var(--accent);
+  text-decoration:none;
+  transition: color .2s ease, text-shadow .2s ease;
+}
+a:hover{
+  color:var(--accent2);
+  text-shadow: 0 0 10px var(--glow), 0 0 18px var(--glow2);
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible{
+  outline: 2px solid rgba(214,204,255,.55);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* --- Layout --- */
+.wrap{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 34px 18px 70px;
+}
+
+/* Header: richer glass */
+header{
+  display:flex;
+  gap:22px;
+  align-items:center;
+  padding: 22px;
+  border-radius: var(--r);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+    radial-gradient(900px 500px at 20% 10%, rgba(184,169,255,.10), transparent 55%),
+    var(--card);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.05),
+    var(--shadow);
+  position: relative;
+  overflow:hidden;
+}
+
+/* Header sheen */
+header::after{
+  content:"";
+  position:absolute;
+  inset:-40% -30%;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.08), transparent 65%);
+  transform: rotate(8deg);
+  opacity:.35;
+  pointer-events:none;
+}
+
+.avatar{
+  width: 124px;
+  height: 124px;
+  border-radius: var(--r2);
+  object-fit: cover;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 22px var(--glow);
+  background: #1b1633;
+  flex: 0 0 auto;
+}
+
+/* Title typography */
+.title h1{
+  margin:0;
+  font-size: clamp(1.65rem, 2.6vw, 2.1rem);
+  letter-spacing: .2px;
+  line-height:1.15;
+}
+.title p{
+  margin:.45rem 0 0;
+  color: var(--muted);
+}
+.title .sub{
+  max-width: 70ch;
+}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 22px;
+}
+
+@media (min-width: 860px){
+  .grid{ grid-template-columns: 1fr 1fr; }
+  .span2{ grid-column: 1 / -1; }
+}
+
+/* Cards (sections) */
+section{
+  padding: var(--pad);
+  border-radius: var(--r);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+    radial-gradient(650px 360px at 15% 10%, rgba(184,169,255,.10), transparent 55%),
+    var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    var(--shadow-soft);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Glow edge on hover */
+section::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(184,169,255,.22), rgba(139,233,255,.10), rgba(214,204,255,.18));
+  opacity:0;
+  transition: opacity .25s ease;
+  pointer-events:none;
+  z-index:0;
+  filter: blur(10px);
+}
+section > *{ position:relative; z-index:1; }
+
+section:hover{
+  transform: translateY(-4px);
+  border-color: rgba(214,204,255,.35);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 18px 44px rgba(0,0,0,.58);
+}
+section:hover::before{ opacity:.9; }
+
+/* Headings */
+section h2{
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  letter-spacing: .25px;
+  color: var(--accent2);
+}
+
+/* Pills */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size: .78rem;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(184,169,255,.14);
+  border: 1px solid var(--border);
+  color: var(--accent2);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: .10em;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset;
+}
+
+/* Lists: cleaner spacing + better bullets */
+ul{
+  margin: 10px 0 0 18px;
+  padding:0;
+}
+li{
+  margin: 8px 0;
+}
+li strong{
+  color: var(--accent2);
+}
+li ul{
+  margin-top: 8px;
+  margin-left: 18px;
+}
+li ul li{
+  margin: 7px 0;
+  color: var(--text);
+}
+
+/* Add subtle separators between top-level items in Section 2 */
+section.span2 ul > li{
+  padding: 10px 0;
+}
+section.span2 ul > li + li{
+  border-top: 1px solid rgba(184,169,255,.12);
+}
+
+/* Muted text */
+.sub{
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Optional note box (you already have .note defined) */
+.note{
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(214,204,255,.28);
+  background: rgba(184,169,255,.07);
+  color: var(--muted);
+  font-size: .96rem;
+}
+
+/* Footer (if you add one later) */
+footer{
+  margin-top: 26px;
+  text-align:center;
+  color: var(--muted);
+  font-size: .92rem;
+  opacity:.92;
+}
+
+/* Mobile-friendly header stacking */
+@media (max-width: 540px){
+  header{
+    flex-direction: column;
+    align-items:flex-start;
+  }
+  .avatar{ width: 108px; height:108px; }
+}
+</style>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- SECTION 1 (Name + Photo + Why you're in this class) -->
+    <header class="span2">
+      <!-- Replace the src with your actual photo file or a public image URL -->
+      <img class="avatar" src="https://static.wixstatic.com/media/3aeb02_2dd7152c7b324d8eac90e1ae76f7a000~mv2.png/v1/crop/x_0,y_236,w_1545,h_1529/fill/w_286,h_279,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11.png" alt="Photo of Your Name" />
+      <div class="title">
+        <div class="pill">Section 1</div>
+        <h1>Aamil Patel</h1>
+        <p><strong>Personal Web Page for CSCE 445</strong></p>
+        <p class="sub">
+          <!-- Replace with a brief statement on why you're in this class -->
+          I am taking this course Computers and New Media because I wanted to learn more about how people interact with technology. I took
+          HCI last semester and I found the material very interesting and found a passion for learning the different ways humans interact with
+          devices. While Computers and New Media does help me fill out my electives in order to graduate, I also see it as an opportunity to broaden
+          my knowledge on human-computer interaction with different forms of media and how that relates to topics such as accessibility and creativity.
+        </p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- SECTION 2 (Media list: consumer + generator, subdivided) -->
+      <section class="span2">
+        <div class="pill">Section 2</div>
+        <h2>Media I Frequently Use</h2>
+        <p class="sub">
+        </p>
+
+        <ul>
+          <li>
+            <strong>Moving Images</strong>
+            <ul>
+              <li><strong>Streaming (Laptop/TV):</strong> Genres: Fantasy, Anime, Action, Comedy — Examples: Frieren, Demon Slayer, Kim's Convenience, The Office, etc.</li>
+              <li><strong>Short-form video (Phone):</strong> Instagram Reels, Youtube Shorts — Topics: Tech, News, Memes, etc.</li>
+              <li><strong>Live TV (Laptop/TV):</strong> Sports - Examples: NFL, NBA, MLB, etc.</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Still Images</strong>
+            <ul>
+              <li><strong>Social photo feeds (Phone):</strong> Instagram, Snapchat</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Text & Messaging</strong>
+            <ul>
+              <li><strong>Email (Laptop/Phone):</strong> Examples: Personal Email, School Email</li>
+              <li><strong>Messaging apps (Phone):</strong> Examples: Google Messages, WhatsApp, Signal, Slack, Microsoft Teams</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Music & Audio</strong>
+            <ul>
+              <li><strong>Streaming music (Phone/Car):</strong> Genres: Pop, Lo-Fi, Bedroom Pop, Japanese, K-Pop</li>
+              <li><strong>Audio Books (Phone):</strong> Books: Percy Jackson, Divergent, Hunger Games, etc.</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Games</strong>
+            <ul>
+              <li><strong>PC/Console:</strong> Games: Valorant, Elden Ring, Pokemon, etc.</li>
+              <li><strong>Mobile games (Phone):</strong> Games: Clash Royale, Pokemon Go, Brawl Stars, etc.</li>
+            </ul>
+          </li>
+
+        </ul>
+      </section>
+
+      
+
+      <!-- SECTION 3 (Challenge / difficulty) -->
+      <section class="span2">
+        <div class="pill">Section 3</div>
+        <h2>Challenges I Experience With My Media Tools</h2>
+        <ul>
+          <li><strong>Moving Images (Live TV)</strong> The biggest challenge that I face in the moving images category is with Live TV. Often times
+          when watching sports live the stream tends to buffer or give out entirely. This is not as prominent in the other forms of moving images becaues they are
+          not live and can be downloaded. Along with this, it is often difficult to find software fot live shows nowdays because streaming has become so prevelant.
+          Even when you do find something often times you have to pay for an entirely new subscription.</li>
+          <li><strong>Text & Messaging</strong> The biggest challenge I have with texting and messaging is that it is hard to keep up with all the different platforms that I
+          communicate through. For email it is relatively easy because I only have to look through two, my personal and my school. However for messaging, some of my friends use Google Messages
+          or iMessage that requires SMS and some prefer apps like Signal and WhatsApp that can utilize Wifi to message and call. On top of this I also need to message in apps like Slack and
+          GroupMe for school and work. This can become very overwhelming quickly.</li>
+        </ul>
+      </section>
+    </div>
+
+</body>
+</html>
